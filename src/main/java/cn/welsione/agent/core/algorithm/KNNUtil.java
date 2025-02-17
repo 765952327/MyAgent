@@ -16,6 +16,42 @@ public class KNNUtil {
     private static final List<double[]> storedVectors = new ArrayList<>();
     private static final Set<String> vocabulary = new HashSet<>();
     
+    public List<String> get(String input){
+        if (vocabulary.isEmpty() || storedStrings.isEmpty()){
+            return new ArrayList<>();
+        }
+        // 分词和向量化输入字符串
+        String[] tokenizedInput = tokenize(input);
+        double[] inputVector = vectorize(tokenizedInput, vocabulary);
+        // 使用kNN算法查询相似字符串
+        int k = 3; // 设置k的值
+        List<Integer> nearestIndex = classify(storedVectors, inputVector, k);
+        
+        
+        double similarityThreshold = 0.3;
+        List<String> result = new ArrayList<>();
+        // 计算相似度
+        for (int i = 0; i < nearestIndex.size(); i++) {
+            double similarity = calculateCosineSimilarity(storedVectors.get(i), inputVector);
+            if (similarity >= similarityThreshold) {
+                result.add(storedStrings.get(i));
+            }
+        }
+        // 如果相似度高于阈值，则返回匹配结果，否则保存并返回当前字符串
+        return result;
+    }
+    
+    public void put(String input) {
+        // 分词和向量化输入字符串
+        String[] tokenizedInput = tokenize(input);
+        if (vocabulary.isEmpty()) {
+            // 更新词汇表
+            updateVocabulary(tokenizedInput);
+        }
+        double[] inputVector = vectorize(tokenizedInput, vocabulary);
+        storedStrings.add(input);
+        storedVectors.add(inputVector);
+    }
     
     public List<String> processString(String input) {
         // 分词和向量化输入字符串
