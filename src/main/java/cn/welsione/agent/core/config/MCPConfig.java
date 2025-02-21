@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
 public class MCPConfig {
     
     
-    @Bean("serverMemory")
-    public McpSyncClient serverMemory() {
-        var stdioParams = ServerParameters.builder("npx")
-                .args("-y", "@modelcontextprotocol/server-memory")
-                .build();
-        
-        return McpClient.sync(new StdioServerTransport(stdioParams));
-    }
+//    @Bean("serverMemory")
+//    public McpSyncClient serverMemory() {
+//        var stdioParams = ServerParameters.builder("npx")
+//                .args("-y", "@modelcontextprotocol/server-memory")
+//                .build();
+//
+//        return McpClient.sync(new StdioServerTransport(stdioParams));
+//    }
 }
